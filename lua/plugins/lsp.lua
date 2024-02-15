@@ -8,9 +8,12 @@ return {
     },
     { 'williamboman/mason-lspconfig.nvim' },
     { 'hrsh7th/cmp-nvim-lsp' },
+    { 'folke/neodev.nvim' },
     { 'nvim-telescope/telescope.nvim' }
   },
   config = function()
+    require('neodev').setup({})
+
     local cmp_nvim_lsp = require('cmp_nvim_lsp')
     local lspconfig = require('lspconfig')
     local mason_lspconfig = require('mason-lspconfig')
