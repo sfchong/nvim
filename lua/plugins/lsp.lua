@@ -24,20 +24,24 @@ return {
         client.server_capabilities.documentFormattingProvider = false
       end
 
-      local bufopts = { noremap = true, silent = true, buffer = bufnr }
+      local opts = { noremap = true, silent = true, buffer = bufnr }
 
-      vim.keymap.set('n', 'gd', function() telescope.lsp_definitions() end, { desc = 'Go to definition' }, bufopts)
-      vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, { desc = 'Go to declaration' }, bufopts)
-      vim.keymap.set('n', 'gt', function() telescope.lsp_type_definitions() end, { desc = 'Go to type definition' },
-        bufopts)
-      vim.keymap.set('n', 'gr', function() telescope.lsp_references() end, { desc = 'Go to reference' }, bufopts)
-      vim.keymap.set('n', 'gi', function() telescope.lsp_implementations() end, { desc = 'Go to implementation' },
-        bufopts)
-      vim.keymap.set('n', 'K', vim.lsp.buf.hover, { desc = 'Hover' }, bufopts)
-      vim.keymap.set({ 'n', 'i' }, '<C-k>', vim.lsp.buf.signature_help, { desc = 'Display function signature' }, bufopts)
-      vim.keymap.set('n', '<leader>cr', vim.lsp.buf.rename, { desc = 'Rename' }, bufopts)
-      vim.keymap.set('n', '<leader>.', vim.lsp.buf.code_action, { desc = 'Code action' }, bufopts)
-      vim.keymap.set("n", "<leader>ce", function() vim.diagnostic.open_float() end, { desc = "Show error popup" })
+      vim.keymap.set('n', 'gd', function() telescope.lsp_definitions() end,
+        { table.unpack(opts), desc = 'Go to definition' })
+      vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, { table.unpack(opts), desc = 'Go to declaration' })
+      vim.keymap.set('n', 'gt', function() telescope.lsp_type_definitions() end,
+        { table.unpack(opts), desc = 'Go to type definition' })
+      vim.keymap.set('n', 'gr', function() telescope.lsp_references() end,
+        { table.unpack(opts), desc = 'Go to reference' })
+      vim.keymap.set('n', 'gi', function() telescope.lsp_implementations() end,
+        { table.unpack(opts), desc = 'Go to implementation' })
+      vim.keymap.set('n', 'K', vim.lsp.buf.hover, { table.unpack(opts), desc = 'Hover' })
+      vim.keymap.set({ 'n', 'i' }, '<C-k>', vim.lsp.buf.signature_help,
+        { table.unpack(opts), desc = 'Display function signature' })
+      vim.keymap.set('n', '<leader>cr', vim.lsp.buf.rename, { table.unpack(opts), desc = 'Rename' })
+      vim.keymap.set('n', '<leader>.', vim.lsp.buf.code_action, { table.unpack(opts), desc = 'Code action' })
+      vim.keymap.set("n", "<leader>ce", function() vim.diagnostic.open_float() end,
+        { table.unpack(opts), desc = "Show error popup" })
     end
 
 
