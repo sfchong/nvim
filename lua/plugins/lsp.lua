@@ -18,39 +18,33 @@ return {
     local lspconfig = require('lspconfig')
     local mason_lspconfig = require('mason-lspconfig')
     local telescope = require('telescope.builtin')
-    local capabilities = cmp_nvim_lsp.default_capabilities()
 
-    local on_attach = function(client, bufnr)
-      vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+    vim.api.nvim_create_autocmd('LspAttach', {
+      group = vim.api.nvim_create_augroup('lsp_cmds', { clear = true }),
+      desc = 'LSP actions',
+      callback = function(args)
+        vim.bo[args.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
 
-      if client.name == 'tsserver' or client.name == 'gopls' then
-        client.server_capabilities.documentFormattingProvider = false
+        local map = function(mode, lhs, rhs, desc)
+          vim.keymap.set(mode, lhs, rhs, { buffer = args.buf, desc = desc })
+        end
+
+        map('n', 'K', vim.lsp.buf.hover, 'Hover')
+        map('n', 'gd', function() telescope.lsp_definitions() end, 'Go to definition')
+        map('n', 'gD', vim.lsp.buf.declaration, 'Go to declaration')
+        map('n', 'gI', function() telescope.lsp_implementations() end, 'Go to implementation')
+        map('n', 'go', function() telescope.lsp_type_definitions() end, 'Go to type definition')
+        map('n', 'gr', function() telescope.lsp_references() end, 'Go to reference')
+        map({ 'n', 'i' }, '<C-k>', vim.lsp.buf.signature_help, 'Signature help')
+        map('n', '<leader>cr', vim.lsp.buf.rename, 'Rename')
+        map('n', '<leader>.', vim.lsp.buf.code_action, 'Code action')
+        map('n', '<leader>ce', vim.diagnostic.open_float, 'Open float')
       end
-
-      local opts = { noremap = true, silent = true, buffer = bufnr }
-
-      vim.keymap.set('n', 'gd', function() telescope.lsp_definitions() end,
-        { table.unpack(opts), desc = 'Go to definition' })
-      vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, { table.unpack(opts), desc = 'Go to declaration' })
-      vim.keymap.set('n', 'gt', function() telescope.lsp_type_definitions() end,
-        { table.unpack(opts), desc = 'Go to type definition' })
-      vim.keymap.set('n', 'gr', function() telescope.lsp_references() end,
-        { table.unpack(opts), desc = 'Go to reference' })
-      vim.keymap.set('n', 'gi', function() telescope.lsp_implementations() end,
-        { table.unpack(opts), desc = 'Go to implementation' })
-      vim.keymap.set('n', 'K', vim.lsp.buf.hover, { table.unpack(opts), desc = 'Hover' })
-      vim.keymap.set({ 'n', 'i' }, '<C-k>', vim.lsp.buf.signature_help,
-        { table.unpack(opts), desc = 'Display function signature' })
-      vim.keymap.set('n', '<leader>cr', vim.lsp.buf.rename, { table.unpack(opts), desc = 'Rename' })
-      vim.keymap.set('n', '<leader>.', vim.lsp.buf.code_action, { table.unpack(opts), desc = 'Code action' })
-      vim.keymap.set("n", "<leader>ce", function() vim.diagnostic.open_float() end,
-        { table.unpack(opts), desc = "Show error popup" })
-    end
+    })
 
 
     local lsp_options = {
-      capabilities = capabilities,
-      on_attach = on_attach
+      capabilities = cmp_nvim_lsp.default_capabilities()
     }
 
     mason_lspconfig.setup({
@@ -90,11 +84,11 @@ return {
           },
         }))
       end,
-      -- ["omnisharp"] = function ()
-      --     lspconfig.omnisharp.setup(vim.tbl_deep_extend("force", lsp_options, {
-      --         cmd = { "dotnet", vim.fn.expand("$HOME/.local/share/nvim/mason/packages/omnisharp/libexec/OmniSharp.dll")},
-      --     }))
-      -- end
+      ["omnisharp"] = function()
+        lspconfig.omnisharp.setup(vim.tbl_deep_extend("force", lsp_options, {
+          cmd = { "dotnet", vim.fn.expand("$HOME/.local/share/nvim/mason/packages/omnisharp/libexec/OmniSharp.dll") },
+        }))
+      end
     })
   end
 }
