@@ -7,7 +7,7 @@ return {
       'nvim-telescope/telescope.nvim',
     },
     keys = {
-      { '<leader>g', function() require('neogit').open() end, { desc = 'Neogit' } }
+      { '<leader>g', function() require('neogit').open() end, desc = 'Neogit' }
     },
     opts = {}
   },
