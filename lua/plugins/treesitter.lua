@@ -26,8 +26,7 @@ return {
       'tsx',
       'typescript',
       'vim',
-      'vimdoc',
-      'yaml'
+      'vimdoc'
     },
   },
   config = function(_, opts)
