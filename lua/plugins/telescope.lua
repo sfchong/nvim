@@ -46,7 +46,14 @@ return {
 
     local telescope_builtin = require('telescope.builtin')
 
+    local function find_files_without_test()
+      telescope_builtin.find_files({
+        find_command = { 'rg', '--files', '--hidden', '-g', '!.git', '-g', '!tests', '-g', '!*test.ts' }
+      })
+    end
+
     vim.keymap.set('n', '<leader>ff', function() telescope_builtin.find_files() end, { desc = 'Find files' })
+    vim.keymap.set('n', '<leader>fi', find_files_without_test, { desc = 'Find files without test' })
     vim.keymap.set('n', '<leader><leader>', function() telescope_builtin.find_files() end, { desc = 'Find files' })
     vim.keymap.set('n', '<leader>fg', function() telescope_builtin.live_grep() end, { desc = 'Live grep' })
     vim.keymap.set('n', '<leader>bb', function() telescope_builtin.buffers() end, { desc = 'List buffers' })
