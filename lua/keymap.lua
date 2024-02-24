@@ -48,8 +48,8 @@ map('v', '<', '<gv')
 map('v', '>', '>gv')
 
 -- re-center after scroll
-map('n', '<C-d>', '<C-d>zz')
-map('n', '<C-u>', '<C-u>zz')
+-- map('n', '<C-d>', '<C-d>zz')
+-- map('n', '<C-u>', '<C-u>zz')
 
 -- disable q:
 map('n', 'q:', '<nop>')
