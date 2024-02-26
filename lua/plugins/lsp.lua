@@ -9,7 +9,8 @@ return {
     { 'williamboman/mason-lspconfig.nvim' },
     { 'hrsh7th/cmp-nvim-lsp' },
     { 'folke/neodev.nvim' },
-    { 'nvim-telescope/telescope.nvim' }
+    { 'nvim-telescope/telescope.nvim' },
+    { 'Hoffs/omnisharp-extended-lsp.nvim' }
   },
   config = function()
     require('neodev').setup({})
@@ -24,6 +25,7 @@ return {
       desc = 'LSP actions',
       callback = function(args)
         vim.bo[args.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
+        local client = vim.lsp.get_client_by_id(args.data.client_id)
 
         local map = function(mode, lhs, rhs, desc)
           vim.keymap.set(mode, lhs, rhs, { buffer = args.buf, desc = desc })
@@ -39,6 +41,11 @@ return {
         map('n', '<leader>cr', vim.lsp.buf.rename, 'Rename')
         map('n', '<leader>.', vim.lsp.buf.code_action, 'Code action')
         map('n', '<leader>ce', vim.diagnostic.open_float, 'Open float')
+
+        if client.name == 'omnisharp' then
+          map('n', 'gd', function() require('omnisharp_extended').telescope_lsp_definitions() end,
+            'Go to definition (omnisharp)')
+        end
       end
     })
 
@@ -86,7 +93,13 @@ return {
       end,
       ["omnisharp"] = function()
         lspconfig.omnisharp.setup(vim.tbl_deep_extend("force", lsp_options, {
-          cmd = { "dotnet", vim.fn.expand("$HOME/.local/share/nvim/mason/packages/omnisharp/libexec/OmniSharp.dll") },
+          handlers = {
+            ["textDocument/definition"] = require('omnisharp_extended').handler,
+          },
+          cmd = {
+            "dotnet",
+            vim.fn.expand("$HOME/.local/share/nvim/mason/packages/omnisharp/libexec/OmniSharp.dll"),
+          },
         }))
       end
     })
