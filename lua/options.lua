@@ -38,3 +38,6 @@ vim.g.netrw_browse_split = 4
 
 vim.opt.splitright = true
 vim.opt.splitbelow = true
+
+-- ignore blank lines when diff
+vim.opt.diffopt = vim.opt.diffopt + 'iblank'
