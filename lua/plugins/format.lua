@@ -4,10 +4,10 @@ return {
   event = 'LspAttach',
   opts = {
     formatters_by_ft = {
-      typescript = { { 'prettierd', 'prettier' } },
-      typescriptreact = { { 'prettierd', 'prettier' } },
-      javascript = { { 'prettierd', 'prettier' } },
-      javascriptreact = { { 'prettierd', 'prettier' } },
+      typescript = { { 'prettierd', 'prettier' }, 'eslint_d' },
+      typescriptreact = { { 'prettierd', 'prettier' }, 'eslint_d' },
+      javascript = { { 'prettierd', 'prettier' }, 'eslint_d' },
+      javascriptreact = { { 'prettierd', 'prettier' }, 'eslint_d' },
       json = { { 'prettierd', 'prettier' } },
       jsonc = { { 'prettierd', 'prettier' } },
       html = { { 'prettierd', 'prettier' } },
