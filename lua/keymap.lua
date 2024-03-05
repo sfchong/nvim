@@ -30,9 +30,6 @@ map('n', '<leader>,', ':bprev<cr>', 'Previous buffer')
 map('n', '<leader>bx', ':bd<cr>', 'Delete buffer')
 map('n', '<leader>bX', ':bd!<cr>', 'Force delete buffer')
 
--- window
-map('n', '<leader>w', '<C-w>', 'Window actions')
-
 -- save
 map('n', '<leader>s', ':w<cr>', 'Save file')
 map('n', '<leader>S', ':wq<cr>', 'Save and quit')
