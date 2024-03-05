@@ -52,10 +52,18 @@ return {
       })
     end
 
+    local function live_grep_without_test()
+      telescope_builtin.live_grep({
+        file_ignore_patterns = { 'node_modules', '.git' },
+        additional_args = { '--hidden', '-g', '!tests', '-g', '!*test.ts' }
+      })
+    end
+
     vim.keymap.set('n', '<leader>ff', function() telescope_builtin.find_files() end, { desc = 'Find files' })
-    vim.keymap.set('n', '<leader>fi', find_files_without_test, { desc = 'Find files without test' })
+    vim.keymap.set('n', '<leader>fF', find_files_without_test, { desc = 'Find files without test' })
     vim.keymap.set('n', '<leader><leader>', function() telescope_builtin.find_files() end, { desc = 'Find files' })
     vim.keymap.set('n', '<leader>fg', function() telescope_builtin.live_grep() end, { desc = 'Live grep' })
+    vim.keymap.set('n', '<leader>fG', live_grep_without_test, { desc = 'Live grep without test' })
     vim.keymap.set('n', '<leader>bb', function() telescope_builtin.buffers() end, { desc = 'List buffers' })
     vim.keymap.set('n', '<leader>h', function() telescope_builtin.help_tags() end, { desc = 'Help page' })
     vim.keymap.set('n', '<leader>fn', function() telescope_builtin.current_buffer_fuzzy_find() end,
