@@ -39,8 +39,14 @@ return {
         },
         colorscheme = {
           enable_preview = true
-        }
-
+        },
+        help_tags = {
+          mappings = {
+            i = {
+              ["<CR>"] = "file_vsplit",
+            },
+          },
+        },
       }
     }
 
