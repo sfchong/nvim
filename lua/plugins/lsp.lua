@@ -46,6 +46,12 @@ return {
           map('n', 'gd', function() require('omnisharp_extended').telescope_lsp_definitions() end,
             'Go to definition (omnisharp)')
         end
+        if client.name == 'eslint' then
+          vim.api.nvim_create_autocmd("BufWritePre", {
+            buffer = args.buf,
+            command = "EslintFixAll",
+          })
+        end
       end
     })
 
@@ -60,6 +66,7 @@ return {
         'lua_ls',
         'cssls',
         'html',
+        'eslint'
       }
     })
 
