@@ -50,11 +50,11 @@ vim.api.nvim_create_autocmd('filetype', {
 -- close all other buffers
 vim.api.nvim_create_user_command('BufferCloseOther',
   function()
-    -- :w - save current buffer
-    -- %bd - close all the buffers_color
+    -- write - save current buffer without formatting
+    -- %bd - close all the buffers
     -- e# - open last edited files
     -- bd# - close the unnamed buffer
-    vim.cmd [[:w|%bd|e#|bd#]]
+    vim.cmd [[noautocmd write|%bd|e#|bd#]]
   end,
   {}
 )
