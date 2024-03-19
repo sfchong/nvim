@@ -1,9 +1,14 @@
 return {
   'nvim-telescope/telescope.nvim',
-  dependencies = { 'nvim-lua/plenary.nvim' },
+  dependencies = {
+    { 'nvim-lua/plenary.nvim' },
+    { 'nvim-telescope/telescope-live-grep-args.nvim' }
+  },
   config = function()
     local telescope = require('telescope')
     local actions = require('telescope.actions')
+    local telescope_builtin = require('telescope.builtin')
+    local lga_actions = require("telescope-live-grep-args.actions")
 
     telescope.setup {
       defaults = {
@@ -47,10 +52,21 @@ return {
             },
           },
         },
+      },
+      extensions = {
+        live_grep_args = {
+          auto_quoting = false,
+          mappings = {
+            i = {
+              ["<C-k>"] = lga_actions.quote_prompt(),
+              ["<C-i>"] = lga_actions.quote_prompt({ postfix = " --iglob " }),
+            },
+          },
+        }
       }
     }
 
-    local telescope_builtin = require('telescope.builtin')
+    telescope.load_extension('live_grep_args')
 
     local function find_files_without_test()
       telescope_builtin.find_files({
@@ -68,7 +84,9 @@ return {
     vim.keymap.set('n', '<leader>ff', function() telescope_builtin.find_files() end, { desc = 'Find files' })
     vim.keymap.set('n', '<leader>fF', find_files_without_test, { desc = 'Find files without test' })
     vim.keymap.set('n', '<leader><leader>', function() telescope_builtin.find_files() end, { desc = 'Find files' })
-    vim.keymap.set('n', '<leader>fg', function() telescope_builtin.live_grep() end, { desc = 'Live grep' })
+    -- vim.keymap.set('n', '<leader>fg', function() telescope_builtin.live_grep() end, { desc = 'Live grep' })
+    vim.keymap.set('n', '<leader>fg', function() require('telescope').extensions.live_grep_args.live_grep_args() end,
+      { desc = 'Live grep' })
     vim.keymap.set('n', '<leader>fG', live_grep_without_test, { desc = 'Live grep without test' })
     vim.keymap.set('n', '<leader>bb', function() telescope_builtin.buffers() end, { desc = 'List buffers' })
     vim.keymap.set('n', '<leader>h', function() telescope_builtin.help_tags() end, { desc = 'Help page' })
