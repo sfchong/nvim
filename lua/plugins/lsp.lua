@@ -30,6 +30,36 @@ return {
         local map = function(mode, lhs, rhs, desc)
           vim.keymap.set(mode, lhs, rhs, { buffer = args.buf, desc = desc })
         end
+        local function toggle_unit_test()
+          -- Get the current buffer name
+          local current_file = vim.fn.expand("%:p")
+          if current_file == '' then
+            print("Error: No file name")
+            return
+          end
+
+          -- Extract directory, base file name without extension, and extension
+          local directory, file_name = current_file:match("(.*/)(.*)")
+          local base_name, ext = file_name:match("(.*)%.([^.]*)$")
+
+          if not directory or not base_name or not ext then
+            print("Error: Unable to parse file path")
+            return
+          end
+
+          -- Check if the file is a test file
+          local is_test_file = string.match(base_name, "%.test$")
+
+          if is_test_file then
+            -- Remove the test suffix and replace with original file extension
+            local original_file = directory .. base_name:gsub("%.test$", "") .. "." .. ext
+            vim.cmd("edit " .. original_file)
+          else
+            -- Append the test suffix and replace with test file extension
+            local test_file = directory .. base_name .. ".test." .. ext
+            vim.cmd("edit " .. test_file)
+          end
+        end
 
         map('n', 'K', vim.lsp.buf.hover, 'Hover')
         map('n', 'gd', function() telescope.lsp_definitions() end, 'Go to definition')
@@ -41,6 +71,7 @@ return {
         map('n', '<leader>cr', vim.lsp.buf.rename, 'Rename')
         map('n', '<leader>.', vim.lsp.buf.code_action, 'Code action')
         map('n', '<leader>ce', vim.diagnostic.open_float, 'Open float')
+        map('n', '<leader>ct', toggle_unit_test, 'Toggle unit test')
 
         if client.name == 'omnisharp' then
           map('n', 'gd', function() require('omnisharp_extended').telescope_lsp_definitions() end,
