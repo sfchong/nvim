@@ -23,7 +23,7 @@ return {
           auto_trigger = true,
           debounce = 75,
           keymap = {
-            accept = '<Tab>',
+            accept = '<nop>', -- Use custom keymap in nvim-cmp
             accept_word = false,
             accept_line = false,
             next = "<F8>",
