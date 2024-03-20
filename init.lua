@@ -10,6 +10,7 @@ if vim.g.vscode then
   end
 
   -- clipboard related
+  vim.opt.clipboard = 'unnamedplus'
   vim.keymap.set('x', 'p', '\"_dP')
   vim.keymap.set('n', 'x', '\"_x')
   vim.keymap.set('v', 'x', '\"_x')
