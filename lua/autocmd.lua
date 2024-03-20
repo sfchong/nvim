@@ -58,3 +58,10 @@ vim.api.nvim_create_user_command('BufferCloseOther',
   end,
   {}
 )
+
+vim.api.nvim_create_user_command('YankCurrentPath',
+  function()
+    vim.cmd [[let @+ = expand('%')]]
+  end,
+  {}
+)
