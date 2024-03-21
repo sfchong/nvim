@@ -65,3 +65,11 @@ vim.api.nvim_create_user_command('YankCurrentPath',
   end,
   {}
 )
+
+vim.api.nvim_create_autocmd('Filetype', {
+  group = augroup('setIndent'),
+  pattern = { 'xml', 'html', 'xhtml', 'css', 'scss', 'javascript', 'typescript', 'yaml', 'lua', 'jsx', 'tsx',
+    'typescriptreact', 'javascriptreact'
+  },
+  command = 'setlocal shiftwidth=2 tabstop=2'
+})
