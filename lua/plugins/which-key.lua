@@ -25,7 +25,7 @@ return {
         name = 'Harpoon'
       },
       w = {
-        '<cmd>WhichKey <C-w><cr>', 'Window actions'
+        '<C-w>', 'Window actions'
       },
     }, { prefix = '<leader>' })
   end
