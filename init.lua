@@ -40,6 +40,8 @@ if vim.g.vscode then
   -- lsp action
   map_vscode('n', '<leader>.', 'editor.action.quickFix')
   map_vscode('n', 'gr', 'editor.action.referenceSearch.trigger')
+  map_vscode('n', 'gI', 'editor.action.goToImplementation')
+  map_vscode({ 'n', 'i' }, '<C-k>', 'editor.action.triggerParameterHints')
 else
   local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
   if not vim.loop.fs_stat(lazypath) then
