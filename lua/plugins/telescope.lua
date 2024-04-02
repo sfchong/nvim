@@ -18,7 +18,8 @@ return {
             ['<esc>'] = actions.close,
           }
         },
-        file_ignore_patterns = { 'node_modules/' }
+        file_ignore_patterns = { 'node_modules/' },
+        wrap_results = true,
       },
       pickers = {
         find_files = {
@@ -41,6 +42,9 @@ return {
         lsp_references = {
           -- fname_width = 100
           show_line = false
+        },
+        diagnostics = {
+          line_width = 'full',
         },
         colorscheme = {
           enable_preview = true
