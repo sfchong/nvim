@@ -2,6 +2,7 @@ return {
   'nvim-telescope/telescope.nvim',
   dependencies = {
     { 'nvim-lua/plenary.nvim' },
+    { 'nvim-telescope/telescope-file-browser.nvim' },
     { 'nvim-telescope/telescope-live-grep-args.nvim' }
   },
   config = function()
@@ -10,12 +11,71 @@ return {
     local telescope_builtin = require('telescope.builtin')
     local lga_actions = require("telescope-live-grep-args.actions")
 
+    local ts_select_dir_for_grep = function(prompt_bufnr)
+      local action_state = require("telescope.actions.state")
+      local fb = require("telescope").extensions.file_browser
+      local lga = require("telescope").extensions.live_grep_args
+      local current_line = action_state.get_current_line()
+
+      fb.file_browser({
+        files = false,
+        depth = 1,
+        hide_parent_dir = true,
+        attach_mappings = function(prompt_bufnr)
+          require("telescope.actions").select_default:replace(function()
+            local entry_path = action_state.get_selected_entry().Path
+            local dir = entry_path:is_dir() and entry_path or entry_path:parent()
+            local relative = dir:make_relative(vim.fn.getcwd())
+            local absolute = dir:absolute()
+
+            lga.live_grep_args({
+              results_title = relative .. "/",
+              cwd = absolute,
+              default_text = current_line,
+            })
+          end)
+
+          return true
+        end,
+      })
+    end
+
+    local ts_select_dir_for_find_files = function(prompt_bufnr)
+      local action_state = require("telescope.actions.state")
+      local fb = require("telescope").extensions.file_browser
+      local current_line = action_state.get_current_line()
+
+      fb.file_browser({
+        files = false,
+        depth = 1,
+        hide_parent_dir = true,
+        attach_mappings = function(prompt_bufnr)
+          require("telescope.actions").select_default:replace(function()
+            local entry_path = action_state.get_selected_entry().Path
+            local dir = entry_path:is_dir() and entry_path or entry_path:parent()
+            local relative = dir:make_relative(vim.fn.getcwd())
+            local absolute = dir:absolute()
+
+            telescope_builtin.find_files({
+              results_title = relative .. "/",
+              cwd = absolute,
+              default_text = current_line,
+            })
+          end)
+
+          return true
+        end,
+      })
+    end
+
+
     telescope.setup {
       defaults = {
         mappings = {
           i = {
             ['<C-h>'] = 'which_key',
             ['<esc>'] = actions.close,
+            ["<C-s>"] = actions.to_fuzzy_refine
           }
         },
         file_ignore_patterns = { 'node_modules/' },
@@ -23,13 +83,23 @@ return {
       },
       pickers = {
         find_files = {
-          find_command = { 'rg', '--files', '--hidden', '-g', '!.git' }
+          find_command = { 'rg', '--files', '--hidden', '-g', '!.git' },
+          mappings = {
+            i = {
+              ["<C-f>"] = ts_select_dir_for_find_files,
+            },
+          }
         },
         live_grep = {
           file_ignore_patterns = { 'node_modules', '.git' },
           additional_args = function(_)
             return { '--hidden' }
-          end
+          end,
+          mappings = {
+            i = {
+              ["<C-f>"] = ts_select_dir_for_grep,
+            },
+          }
         },
         buffers = {
           sort_lastused = true,
@@ -64,12 +134,13 @@ return {
             i = {
               ["<C-k>"] = lga_actions.quote_prompt(),
               ["<C-i>"] = lga_actions.quote_prompt({ postfix = " --iglob " }),
+              ["<C-f>"] = ts_select_dir_for_grep
             },
           },
         }
       }
     }
-
+    telescope.load_extension('file_browser')
     telescope.load_extension('live_grep_args')
 
     local function find_files_without_test()
