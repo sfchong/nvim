@@ -20,6 +20,11 @@ return {
     local mason_lspconfig = require('mason-lspconfig')
     local telescope = require('telescope.builtin')
 
+    local test_file_patterns = {
+      '%.test.ts',
+      '%.test.tsx',
+    }
+
     vim.api.nvim_create_autocmd('LspAttach', {
       group = vim.api.nvim_create_augroup('lsp_cmds', { clear = true }),
       desc = 'LSP actions',
@@ -67,6 +72,10 @@ return {
         map('n', 'gI', function() telescope.lsp_implementations() end, 'Go to implementation')
         map('n', 'go', function() telescope.lsp_type_definitions() end, 'Go to type definition')
         map('n', 'gr', function() telescope.lsp_references() end, 'Go to reference')
+        map('n', 'gR', function()
+            telescope.lsp_references({ file_ignore_patterns = test_file_patterns })
+          end,
+          'Go to reference (no test)')
         map({ 'n', 'i' }, '<C-k>', vim.lsp.buf.signature_help, 'Signature help')
         map('n', '<leader>cr', vim.lsp.buf.rename, 'Rename')
         map('n', '<leader>.', vim.lsp.buf.code_action, 'Code action')
