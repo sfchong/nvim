@@ -102,9 +102,6 @@ return {
         },
         live_grep = {
           file_ignore_patterns = { 'node_modules', '.git' },
-          additional_args = function(_)
-            return { '--hidden' }
-          end,
           mappings = {
             i = {
               ["<C-f>"] = ts_select_dir_for_grep,
@@ -156,14 +153,14 @@ return {
 
     local function find_files_without_test()
       telescope_builtin.find_files({
-        find_command = { 'rg', '--files', '--hidden', '-g', '!.git', '-g', '!tests', '-g', '!*test.ts' }
+        find_command = { 'rg', '--files', '--hidden', '-g', '!.git', '-g', '!tests', '-g', '!*test.ts', '-g', '!*test.tsx' }
       })
     end
 
     local function live_grep_without_test()
       telescope_builtin.live_grep({
         file_ignore_patterns = { 'node_modules', '.git' },
-        additional_args = { '--hidden', '-g', '!tests', '-g', '!*test.ts' }
+        additional_args = { '--hidden', '-g', '!tests', '-g', '!*test.ts', '-g', '!*test.tsx' }
       })
     end
 
