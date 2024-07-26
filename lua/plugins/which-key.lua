@@ -8,25 +8,14 @@ return {
   opts = {},
   config = function()
     local wk = require('which-key')
-    wk.register({
-      b = {
-        name = 'Buffer actions'
-      },
-      c = {
-        name = 'Code actions'
-      },
-      e = {
-        name = 'File explorer'
-      },
-      f = {
-        name = 'Find with Telescope'
-      },
-      p = {
-        name = 'Harpoon'
-      },
-      w = {
-        '<C-w>', 'Window actions'
-      },
-    }, { prefix = '<leader>' })
+
+    wk.add({
+      { "<leader>b", group = "Buffer actions" },
+      { "<leader>c", group = "Code actions" },
+      { "<leader>e", group = "File explorer" },
+      { "<leader>f", group = "Find with Telescope" },
+      { "<leader>p", group = "Harpoon" },
+      { "<leader>w", proxy = "<C-w>",              desc = "Window actions" },
+    })
   end
 }
