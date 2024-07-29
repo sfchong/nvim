@@ -41,3 +41,7 @@ vim.opt.splitbelow = true
 
 -- ignore blank lines when diff
 vim.opt.diffopt = vim.opt.diffopt + 'iblank'
+
+vim.opt.foldenable = false
+vim.opt.foldmethod = 'indent'
+vim.opt.foldlevel = 99
