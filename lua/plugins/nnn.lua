@@ -1,10 +1,5 @@
 return {
   'luukvbaal/nnn.nvim',
-  keys = {
-    { '<F2>',       '<cmd>NnnExplorer %:p:h<CR>', desc = 'NnnExplorer' },
-    { '<leader>ee', '<cmd>NnnPicker<CR>',         desc = 'NnnPicker' },
-    { '<leader>ec', '<cmd>NnnPicker %:p:h<CR>',   desc = 'NnnPicker in current directory' },
-  },
   config = function()
     local nnn = require('nnn')
 
@@ -23,6 +18,9 @@ return {
       },
     })
 
+    vim.keymap.set('n', '<F2>', '<cmd>NnnExplorer %:p:h<CR>', { desc = 'NnnExplorer' })
     vim.keymap.set('t', '<F2>', '<cmd>NnnExplorer<CR>', { desc = 'NnnExplorer' })
+    vim.keymap.set('n', '<leader>ee', '<cmd>NnnPicker<CR>', { desc = 'NnnPicker' })
+    vim.keymap.set('n', '<leader>ec', '<cmd>NnnPicker %:p:h<CR>', { desc = 'NnnPicker in current directory' })
   end
 }
