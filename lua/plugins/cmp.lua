@@ -34,9 +34,7 @@ return {
           select = true
         }),
         ['<Tab>'] = cmp.mapping(function(fallback)
-          if require('copilot.suggestion').is_visible() then
-            require('copilot.suggestion').accept()
-          elseif cmp.visible() then
+          if cmp.visible() then
             local entry = cmp.get_selected_entry()
             if not entry then
               cmp.select_next_item { behavior = cmp.SelectBehavior.Insert }
