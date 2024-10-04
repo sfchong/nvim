@@ -28,7 +28,7 @@ return {
       }):find()
     end
 
-    vim.keymap.set('n', '<leader>pa', function() harpoon:list():append() end, { desc = 'Harpoon add file' })
+    vim.keymap.set('n', '<leader>pa', function() harpoon:list():add() end, { desc = 'Harpoon add file' })
     -- vim.keymap.set('n', '<leader>pp', function() toggle_telescope(harpoon:list()) end, { desc = 'Harpoon menu' })
     vim.keymap.set('n', '<leader>pp', function() harpoon.ui:toggle_quick_menu(harpoon:list()) end,
       { desc = 'Harpoon menu' })
