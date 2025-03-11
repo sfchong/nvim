@@ -21,6 +21,7 @@ return {
         'css',
         'c_sharp',
         'go',
+        'graphql',
         'html',
         'javascript',
         'json',

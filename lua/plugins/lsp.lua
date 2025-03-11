@@ -106,7 +106,8 @@ return {
         'lua_ls',
         'cssls',
         'html',
-        'eslint'
+        'eslint',
+        'graphql'
       }
     })
 
