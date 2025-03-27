@@ -5,9 +5,13 @@ return {
     vim.o.timeout = true
     vim.o.timeoutlen = 300
   end,
-  opts = {},
-  config = function()
+  opts = {
+    preset = 'modern',
+  },
+  config = function(_, opts)
     local wk = require('which-key')
+
+    wk.setup(opts)
 
     wk.add({
       { "<leader>b",    group = "Buffer actions" },
