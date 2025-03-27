@@ -20,6 +20,9 @@ return {
       vim.g.gruvbox_material_diagnostic_virtual_text = 'colored'
       vim.g.gruvbox_material_transparent_background = 1
       vim.cmd([[colorscheme gruvbox-material]])
+      vim.cmd([[
+        highlight CursorLine guibg=#323232 guifg=NONE
+      ]])
     end
   },
 }
