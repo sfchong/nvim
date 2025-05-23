@@ -7,7 +7,6 @@ return {
       run = ':MasonUpdate'
     },
     { 'williamboman/mason-lspconfig.nvim' },
-    { 'hrsh7th/cmp-nvim-lsp' },
     { 'folke/neodev.nvim' },
     { 'nvim-telescope/telescope.nvim' },
   },

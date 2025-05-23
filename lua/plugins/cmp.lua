@@ -1,98 +1,24 @@
 return {
-  'hrsh7th/nvim-cmp',
-  dependencies = {
-    'hrsh7th/cmp-nvim-lsp',
-    'hrsh7th/cmp-buffer',
-    'hrsh7th/cmp-path',
-    'hrsh7th/cmp-cmdline',
-    'onsails/lspkind-nvim',
-    'L3MON4D3/LuaSnip',
-    'saadparwaiz1/cmp_luasnip'
-  },
-  -- event = 'InsertEnter',
-  config = function()
-    local cmp = require('cmp')
-    local lspkind = require('lspkind')
-    local luasnip = require('luasnip')
-
-    cmp.setup({
-      snippet = {
-        expand = function(args)
-          luasnip.lsp_expand(args.body)
-        end,
+  'saghen/blink.cmp',
+  version = '1.*',
+  ---@module 'blink.cmp'
+  ---@type blink.cmp.Config
+  opts = {
+    keymap = {
+      preset = "default",
+      ['<CR>'] = { 'accept', 'fallback' },
+    },
+    sources = {
+      default = { 'lsp', 'path', 'snippets', 'buffer' },
+    },
+    fuzzy = { implementation = "prefer_rust_with_warning" },
+    signature = { enabled = true },
+    cmdline = {
+      keymap = {
+        preset = 'inherit',
+        ['<CR>'] = { 'accept_and_enter', 'fallback' }
       },
-      mapping = cmp.mapping.preset.insert({
-        ['<C-n>'] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }),
-        ['<C-p>'] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }),
-        ['<Down>'] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Select }),
-        ['<Up>'] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select }),
-        ['<C-d>'] = cmp.mapping.scroll_docs(-4),
-        ['<C-u>'] = cmp.mapping.scroll_docs(4),
-        ['<C-Space>'] = cmp.mapping.complete(),
-        ['<CR>'] = cmp.mapping.confirm({
-          behavior = cmp.ConfirmBehavior.Insert,
-          select = true
-        }),
-        -- ['<Tab>'] = cmp.mapping(function(fallback)
-        --   if cmp.visible() then
-        --     local entry = cmp.get_selected_entry()
-        --     if not entry then
-        --       cmp.select_next_item { behavior = cmp.SelectBehavior.Insert }
-        --     else
-        --       cmp.confirm()
-        --     end
-        --   elseif luasnip.expand_or_jumpable() then
-        --     luasnip.expand_or_jumpable()
-        --   else
-        --     fallback()
-        --   end
-        -- end, {
-        --   'i',
-        --   's',
-        -- }),
-      }),
-      sources = cmp.config.sources({
-        { name = 'nvim_lsp' },
-        { name = 'luasnip' },
-        { name = 'buffer' },
-        { name = 'path' },
-      }),
-      formatting = {
-        -- lspkind add vscode-like pictograms
-        format = lspkind.cmp_format({ mode = 'symbol_text', maxwidth = 50 }),
-      },
-    })
-
-    -- Use buffer source for `/` (if you enabled `native_menu`, this won't work anymore).
-    cmp.setup.cmdline('/', {
-      formatting = {
-        -- Only show the completion itself, no icon, no completion source
-        fields = { 'abbr' },
-      },
-      mapping = cmp.mapping.preset.cmdline({
-        ['<Down>'] = { c = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }) },
-        ['<Up>'] = { c = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }) },
-      }),
-      sources = {
-        { name = 'buffer' }
-      }
-    })
-
-    -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
-    cmp.setup.cmdline(':', {
-      formatting = {
-        -- Only show the completion itself, no icon, no completion source
-        fields = { 'abbr' },
-      },
-      mapping = cmp.mapping.preset.cmdline({
-        ['<Down>'] = { c = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }) },
-        ['<Up>'] = { c = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }) },
-      }),
-      sources = cmp.config.sources({
-        { name = 'path' }
-      }, {
-        { name = 'cmdline' }
-      })
-    })
-  end
+      completion = { menu = { auto_show = true } },
+    }
+  }
 }
